@@ -168,7 +168,7 @@ static void on_accept(evutil_socket_t listener, short event, void *arg) {
 void net_start(int port, net_on_connect on_connect, net_on_read on_read,
 		net_on_close on_close) {
 	evutil_socket_t listener;
-	struct sockaddr_in sin;
+	struct sockaddr_in6 sin;
 	struct event *listener_event;
 
 	line_buffer = malloc(sizeof(char)*NET_MAX_LINE);
@@ -187,10 +187,10 @@ void net_start(int port, net_on_connect on_connect, net_on_read on_read,
 
 	//evthread_make_base_notifiable(base);
 
-	sin.sin_family = AF_INET;
-	sin.sin_addr.s_addr = 0;
-	sin.sin_port = htons(1337);
-	listener = socket(AF_INET, SOCK_STREAM, 0);
+	sin.sin6_family = AF_INET6;
+	sin.sin6_addr = in6addr_any;
+	sin.sin6_port = htons(1337);
+	listener = socket(AF_INET6, SOCK_STREAM, 0);
 	evutil_make_socket_nonblocking(listener);
 	evutil_make_listen_socket_reuseable(listener);
 
